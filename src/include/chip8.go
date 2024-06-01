@@ -1,3 +1,7 @@
 package include
 
-type chip8 struct{}
+type Chip8 struct {
+	Memory    Chip8_Memory
+	Registers Chip8_Registers
+	Stack     Chip8_Stack
+}
