@@ -6,13 +6,20 @@ import (
 	sdl "github.com/veandco/go-sdl2/sdl"
 )
 
+var keyboard_map = [c.CHIP8_NUM_KEYS]int{
+	sdl.K_0, sdl.K_1, sdl.K_2, sdl.K_3, sdl.K_4, sdl.K_5,
+	sdl.K_6, sdl.K_7, sdl.K_8, sdl.K_9, sdl.K_a, sdl.K_b,
+	sdl.K_c, sdl.K_d, sdl.K_e, sdl.K_f,
+}
+
 func main() {
 	chip8 := c.Chip8{}
-	chip8.Registers.SP = 0
-	c.Chip8_stack_push(&chip8, 0xff)
-	c.Chip8_stack_push(&chip8, 0xaa)
-	println("%d", c.Chip8_stack_pop(&chip8))
-	println("%d", c.Chip8_stack_pop(&chip8))
+
+	c.Chip8_key_press(&chip8.Keyboard, 0x0f)
+	c.Chip8_key_up(&chip8.Keyboard, 0x0f)
+	is_down := c.Chip8_is_key_pressed(&chip8.Keyboard, 0x0f)
+	println(is_down)
+
 	if err := sdl.Init(uint32(sdl.INIT_EVERYTHING)); err != nil {
 		panic(err)
 	}
@@ -45,10 +52,18 @@ func main() {
 	running := true
 	for running {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-			switch event.(type) {
+			switch e := event.(type) {
 			case *sdl.QuitEvent:
 				println("Quit")
 				running = false
+			case *sdl.KeyboardEvent:
+				keystate := e.Type
+				switch keystate {
+				case sdl.KEYUP:
+					println("Key up")
+				case sdl.KEYDOWN:
+					println("Key down")
+				}
 			}
 		}
 	}
