@@ -14,11 +14,7 @@ var keyboard_map = [c.CHIP8_NUM_KEYS]int{
 
 func main() {
 	chip8 := c.Chip8{}
-
-	c.Chip8_key_press(&chip8.Keyboard, 0x0f)
-	c.Chip8_key_up(&chip8.Keyboard, 0x0f)
-	is_down := c.Chip8_is_key_pressed(&chip8.Keyboard, 0x0f)
-	println(is_down)
+	c.Chip8_init(&chip8)
 
 	if err := sdl.Init(uint32(sdl.INIT_EVERYTHING)); err != nil {
 		panic(err)
@@ -60,9 +56,17 @@ func main() {
 				keystate := e.Type
 				switch keystate {
 				case sdl.KEYUP:
-					println("Key up")
+					key := e.Keysym.Sym
+					vkey := c.Keyboard_map(keyboard_map, int(key))
+					if vkey != -1 {
+						c.Keyboard_key_up(&chip8.Keyboard, vkey)
+					}
 				case sdl.KEYDOWN:
-					println("Key down")
+					key := e.Keysym.Sym
+					vkey := c.Keyboard_map(keyboard_map, int(key))
+					if vkey != -1 {
+						c.Keyboard_key_press(&chip8.Keyboard, vkey)
+					}
 				}
 			}
 		}

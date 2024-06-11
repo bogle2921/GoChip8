@@ -8,5 +8,5 @@ const (
 	CHIP8_WIN_MULTI     int32  = 10
 	CHIP8_NUM_REGISTERS int8   = 16
 	CHIP8_STACK_DEPTH   byte   = 16
-	CHIP8_NUM_KEYS      byte   = 16
+	CHIP8_NUM_KEYS      int   = 16
 )

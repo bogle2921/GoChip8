@@ -1,6 +1,6 @@
 package include
 
-type Chip8_Stack struct {
+type Stack struct {
 	Stack [CHIP8_STACK_DEPTH]uint16
 }
 
@@ -10,13 +10,13 @@ func is_stack_in_bounds(chip8 *Chip8) {
 	}
 }
 
-func Chip8_stack_push(chip8 *Chip8, val uint16) {
+func Stack_push(chip8 *Chip8, val uint16) {
 	is_stack_in_bounds(chip8)
 	chip8.Stack.Stack[chip8.Registers.SP] = val
 	chip8.Registers.SP += 1
 }
 
-func Chip8_stack_pop(chip8 *Chip8) uint16 {
+func Stack_pop(chip8 *Chip8) uint16 {
 	chip8.Registers.SP -= 1
 	is_stack_in_bounds(chip8)
 	val := chip8.Stack.Stack[chip8.Registers.SP]

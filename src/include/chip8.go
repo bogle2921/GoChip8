@@ -1,8 +1,14 @@
 package include
 
 type Chip8 struct {
-	Memory    Chip8_Memory
-	Registers Chip8_Registers
-	Stack     Chip8_Stack
-	Keyboard Chip8_Keyboard
+	Memory    Memory
+	Registers Registers
+	Stack     Stack
+	Keyboard  Keyboard
+}
+
+func Chip8_init(chip8 *Chip8){
+	for i := 0; i < int(CHIP8_MEM_SIZE); i++ {
+		Mem_set(&chip8.Memory, uint16(i), 0)
+	}
 }

@@ -1,16 +1,16 @@
 package include
 
-type Chip8_Keyboard struct {
+type Keyboard struct {
 	Keyboard [CHIP8_NUM_KEYS]bool
 }
 
-func is_key_valid(key byte) {
+func is_key_valid(key int) {
 	if !(key < CHIP8_NUM_KEYS) {
 		panic("Key pressed is out of range")
 	}
 }
 
-func Chip8_keyboard_map(key_map []int, key byte) int {
+func Keyboard_map(key_map [16]int, key int) int {
 	for i := 0; i < int(CHIP8_NUM_KEYS); i++ {
 		if key_map[i] == int(key) {
 			return i
@@ -19,17 +19,17 @@ func Chip8_keyboard_map(key_map []int, key byte) int {
 	return -1
 }
 
-func Chip8_key_press(keyboard *Chip8_Keyboard, key byte) {
+func Keyboard_key_press(keyboard *Keyboard, key int) {
 	is_key_valid(key)
 	keyboard.Keyboard[key] = true
 }
 
-func Chip8_key_up(keyboard *Chip8_Keyboard, key byte) {
+func Keyboard_key_up(keyboard *Keyboard, key int) {
 	is_key_valid(key)
 	keyboard.Keyboard[key] = false
 }
 
-func Chip8_is_key_pressed(keyboard *Chip8_Keyboard, key byte) bool {
+func Keyboard_is_key_pressed(keyboard *Keyboard, key int) bool {
 	is_key_valid(key)
 	return keyboard.Keyboard[key]
 }
